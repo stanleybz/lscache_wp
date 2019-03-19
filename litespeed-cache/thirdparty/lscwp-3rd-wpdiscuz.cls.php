@@ -19,22 +19,31 @@ class LiteSpeed_Cache_ThirdParty_Wpdiscuz
 	{
 		if ( ! defined( 'WPDISCUZ_DS' ) ) return ;
 
-		LiteSpeed_Cache_ThirdParty_Wpdiscuz::check_commenter() ;
-		add_action( 'wpdiscuz_add_comment', 'LiteSpeed_Cache_ThirdParty_Wpdiscuz::add_comment' ) ;
-
-	}
-
-	public static function add_comment()
-	{
-		LiteSpeed_Cache_Vary::get_instance()->append_commenter() ;
-	}
-
-	public static function check_commenter()
-	{
-		$commentor = wp_get_current_commenter() ;
-
-		if ( strlen( $commentor[ 'comment_author' ] ) > 0 ) {
-			add_filter( 'litespeed_vary_check_commenter_pending', '__return_false' ) ;
+		if ( LiteSpeed_Cache_API::esi_enabled() ) {
+			LiteSpeed_Cache_API::hook_tpl_not_esi('LiteSpeed_Cache_ThirdParty_Wpdiscuz::is_not_esi') ;
+			LiteSpeed_Cache_API::hook_tpl_esi('wpdiscuz-comment-form', 'LiteSpeed_Cache_ThirdParty_Wpdiscuz::load_wpdiscuz_comment_form') ;
 		}
+	}
+
+	public static function is_not_esi()
+	{
+		add_filter('wpdiscuz_comment_form_render', 'LiteSpeed_Cache_ThirdParty_Wpdiscuz::sub_add_to_wishlist', 2, 999) ;
+	}
+
+	public static function sub_add_to_wishlist( $template, $commentsCount, $currentUser )
+	{
+		$params = array(
+			'commentsCount' => $commentsCount,
+			'currentUser' => $currentUser
+		) ;
+		return LiteSpeed_Cache_API::esi_url( 'wpdiscuz-comment-form', 'WPDiscuz comment form', $params ) ;
+	}
+
+	public static function load_wpdiscuz_comment_form($params)
+	{
+		$wpdiscuz = wpDiscuz();
+		$wpdiscuz->wpdiscuzForm->renderFrontForm($params['commentsCount'], $params['currentUser']);
+		LiteSpeed_Cache_API::set_cache_private();
+		LiteSpeed_Cache_API::set_cache_no_vary();
 	}
 }
