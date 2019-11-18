@@ -11,11 +11,24 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die() ;
 }
-
+LiteSpeed_Cache_API::hook_init( 'LiteSpeed_Cache_ThirdParty_Elementor::pre_load' ) ;
 LiteSpeed_Cache_API::register( 'LiteSpeed_Cache_ThirdParty_Elementor' ) ;
 
 class LiteSpeed_Cache_ThirdParty_Elementor
 {
+	public static function pre_load()
+	{
+		if ( ! defined( 'ELEMENTOR_VERSION' ) ) return ;
+
+		if ( isset( $_GET[ 'action' ] ) && $_GET[ 'action' ] === 'elementor' ) {
+				LiteSpeed_Cache_API::disable_all( 'Elementor edit mode' ) ;
+		}
+
+		if ( strpos( $_SERVER['HTTP_REFERER'] , 'action=elementor') !== false ) {
+				LiteSpeed_Cache_API::disable_all( 'Elementor edit mode (Referer)' ) ;
+		}
+	}
+
 	/**
 	 * Detect if Elementor is installed and it's on ESI
 	 *
