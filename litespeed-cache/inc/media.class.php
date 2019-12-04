@@ -394,7 +394,7 @@ eot;
 			return $content ;
 		}
 
-		if ( ! defined( 'LITESPEED_IS_HTML' ) ) {
+		if ( ! defined( 'LITESPEED_IS_HTML' ) && ! defined( 'IS_AMP_ENDPOINT' ) ) {
 			LiteSpeed_Cache_Log::debug2( '[Media] bypass: Not frontend HTML type' ) ;
 			return $content ;
 		}
