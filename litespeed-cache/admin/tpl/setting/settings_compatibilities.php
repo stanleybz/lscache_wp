@@ -20,16 +20,18 @@ if (!LiteSpeed_Cache_Admin_Display::get_instance()->show_compatibility_tab()) re
 	<li>
 		<p><?php echo __('Update the ajax request to output the results to that div.', 'litespeed-cache'); ?></p>
 		<p><?php echo __('Example:', 'litespeed-cache'); ?></p>
-		<pre>jQuery.ajax({
-	type:"GET",
-	url:viewsCacheL10n.admin_ajax_url,
-	data:"postviews_id="+viewsCacheL10n.post_id+"&action=postviews",
-	cache:!1,
-	success:function(data) {
-		if(data) {
-			jQuery('#postviews_lscwp').html(data+' views');
+		<pre>jQuery( document ).ready(function() {
+	jQuery.ajax({
+		type:"GET",
+		url:viewsCacheL10n.admin_ajax_url,
+		data:"postviews_id="+viewsCacheL10n.post_id+"&action=postviews",
+		cache:!1,
+		success:function(data) {
+			if(data) {
+				jQuery('#postviews_lscwp').html(data+' views');
+			}
 		}
-	}
+	});
 });</pre>
 		<p><?php echo __('The ajax code can be found at', 'litespeed-cache'); ?></p>
 		<pre>/wp-content/plugins/wp-postviews/postviews-cache.js</pre>
