@@ -13,7 +13,10 @@
 	var update_lazyload ;
 
 	var init = function(){
-		instance = new LazyLoad( { elements_selector : "[data-lazyloaded]" } ) ;
+		instance = new LazyLoad( {
+			elements_selector: "[data-lazyloaded]",
+			threshold: window.lsc_lazyload_threshold,
+		} ) ;
 
 		update_lazyload = function(){
 			instance.update() ;

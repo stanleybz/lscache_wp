@@ -750,6 +750,7 @@ class LiteSpeed_Cache_Admin_Settings
 		$ids = array(
 			LiteSpeed_Cache_Config::OPID_MEDIA_IMG_LAZY_PLACEHOLDER,
 			LiteSpeed_Cache_Config::OPID_MEDIA_PLACEHOLDER_RESP_COLOR,
+			LiteSpeed_Cache_Config::OPID_MEDIA_IMG_LAZYJS_THRESHOLD,
 		) ;
 		foreach ( $ids as $id ) {
 			$this->_options[ $id ] = $this->_input[ $id ] ;

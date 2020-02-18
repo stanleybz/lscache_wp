@@ -480,11 +480,14 @@ eot;
 
 		// Include lazyload lib js and init lazyload
 		if ( $cfg_img_lazy || $cfg_iframe_lazy ) {
+			$threshold = LiteSpeed_Cache::config( LiteSpeed_Cache_Config::OPID_MEDIA_IMG_LAZYJS_THRESHOLD ) ;
+			$lazy_lib = $threshold ? '<script>window.lsc_lazyload_threshold=' . intval( $threshold ) . '</script>' : '' ;
+
 			if ( LiteSpeed_Cache::config( LiteSpeed_Cache_Config::OPID_MEDIA_IMG_LAZYJS_INLINE ) ) {
-				$lazy_lib = '<script>' . Litespeed_File::read( LSCWP_DIR . self::LIB_FILE_IMG_LAZYLOAD ) . '</script>' ;
+				$lazy_lib .= '<script>' . Litespeed_File::read( LSCWP_DIR . self::LIB_FILE_IMG_LAZYLOAD ) . '</script>' ;
 			} else {
 				$lazy_lib_url = LSWCP_PLUGIN_URL . self::LIB_FILE_IMG_LAZYLOAD ;
-				$lazy_lib = '<script src="' . $lazy_lib_url . '"></script>' ;
+				$lazy_lib .= '<script src="' . $lazy_lib_url . '"></script>' ;
 			}
 
 			$this->content = str_replace( '</body>', $lazy_lib . '</body>', $this->content ) ;

@@ -140,7 +140,18 @@ $last_responsive_placeholder_generated = LiteSpeed_Cache_Media::get_summary() ;
 		</td>
 	</tr>
 
-	<tr>
+  <tr>
+    <th><?php echo __( 'Lazy Load Threshold', 'litespeed-cache' ) ; ?></th>
+    <td>
+		  <?php $this->build_input( LiteSpeed_Cache_Config::OPID_MEDIA_IMG_LAZYJS_THRESHOLD ) ; ?>
+	    <?php echo __( 'pixels', 'litespeed-cache' ) ; ?>
+      <div class="litespeed-desc">
+		  <?php echo __( 'A number of pixels representing the outer distance off the scrolling area from which to start loading the elements.', 'litespeed-cache' ) ; ?>
+      </div>
+    </td>
+  </tr>
+
+  <tr>
 		<th><?php echo __( 'Inline Lazy Load Images Library', 'litespeed-cache' ) ; ?></th>
 		<td>
 			<?php $this->build_switch( LiteSpeed_Cache_Config::OPID_MEDIA_IMG_LAZYJS_INLINE ) ; ?>
